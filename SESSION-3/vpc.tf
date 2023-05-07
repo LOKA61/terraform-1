@@ -27,9 +27,9 @@ resource "aws_subnet" "subnet-private" {
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
-  tags = {
+  tags = merge(var.tags,{
     Name = "igw-main"
-  }
+  })
 }
 
 resource "aws_route_table" "public-rt" {
@@ -40,9 +40,9 @@ resource "aws_route_table" "public-rt" {
     gateway_id = aws_internet_gateway.igw.id
   }
 
-  tags = {
+  tags = merge(var.tags,{
     Name = "public-rt"
-  }
+  })
 }
 
 resource "aws_route_table_association" "public-rt-association" {
@@ -58,9 +58,9 @@ resource "aws_nat_gateway" "automated-NAT" {
   allocation_id = aws_eip.lauto-eip.id
   subnet_id     = aws_subnet.subnet-public.id
 
-  tags = {
+  tags = merge(var.tags,{
     Name = "automated-NAT"
-  }
+  })
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
   # on the Internet Gateway for the VPC.
@@ -75,9 +75,9 @@ resource "aws_route_table" "private-rt" {
     gateway_id = aws_nat_gateway.automated-NAT.id
   }
 
-  tags = {
+  tags = merge(var.tags,{
     Name = "private-rt"
-  }
+  })
 }
 
 resource "aws_route_table_association" "private-rt-association" {

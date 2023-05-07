@@ -22,3 +22,10 @@ variable "rt_ip"{
     type = string
 }
 
+variable "tags" {
+  type = map(string)
+  default = {
+    Name = "web-server"
+    Environment = "dev"
+  }
+}
