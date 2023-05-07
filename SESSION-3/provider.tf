@@ -5,15 +5,17 @@ terraform {
       version = "~> 4.0"
     }
   }
+
+  backend "s3" {
+    bucket         = "kris9161-backend-s3"
+    key            = "timing"
+    region         = "ap-south-1"
+    dynamodb_table = "timing-lock"
+  }
 }
+
 
 # Configure the AWS Provider
 provider "aws" {
   region = var.region
 }
-backend "s3" {
-    bucket = "kris9161-backend-s3"
-    key    = "timing"
-    region = "ap-south-1"
-    dynamodb_table = "timing-lock"
-  }

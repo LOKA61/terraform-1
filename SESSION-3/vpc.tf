@@ -1,5 +1,5 @@
 resource "aws_vpc" "main" {
-  cidr_block       = vpc_addr
+  cidr_block       = var.vpc_addr
   instance_tenancy = "default"
 
   tags = {
@@ -9,7 +9,7 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "subnet-public" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = subnet_punlic_ip
+  cidr_block = var.subnet_punlic_ip
 
   tags = {
     Name = "subnet-public"
@@ -18,7 +18,7 @@ resource "aws_subnet" "subnet-public" {
 
 resource "aws_subnet" "subnet-private" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = subnet_private_ip
+  cidr_block = var.subnet_private_ip
 
   tags = {
     Name = "subnet-private"
@@ -36,7 +36,7 @@ resource "aws_route_table" "public-rt" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.rt_ip
     gateway_id = aws_internet_gateway.igw.id
   }
 
@@ -71,7 +71,7 @@ resource "aws_route_table" "private-rt" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.rt_ip
     gateway_id = aws_nat_gateway.automated-NAT.id
   }
 

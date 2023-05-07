@@ -17,7 +17,8 @@ variable subnet_private_ip {
 
     type = string
 }
-variable "public_rt_ip"{
+variable "rt_ip"{
 
     type = string
 }
+
